@@ -67,7 +67,7 @@ while True:
 # Проверка наличия консоли
 exit_flag = False
 while True:
-    print(time.strftime('%H:%M:%S', time.localtime()))
+    print(f'\n{time.strftime("%H:%M:%S", time.localtime())}')
     for shop, url in target_links.items():
         result = check_status.check_status(shop, url)
         if result:
