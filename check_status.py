@@ -21,9 +21,9 @@ import requests
 
 
 def check_status(shop_name: str, target_url: str) -> bool:
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0'}
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
     try:
-        response = requests.get(target_url, headers=headers, verify=certifi.where())
+        response = requests.get(target_url, headers=headers, timeout=10, verify=certifi.where())
     except:
         return False
     if not response.ok:
