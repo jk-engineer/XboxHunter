@@ -16,6 +16,7 @@
 
 
 import check_status
+import get_links
 import random
 import time
 import webbrowser
@@ -23,32 +24,8 @@ import winsound
 
 
 # Список ссылок на консоли в различных магазинах
-xbox_series_x_links = {
-'М.видео': 'https://www.mvideo.ru/products/igrovaya-pristavka-microsoft-xbox-series-x-40073271',
-'Эльдорадо': 'https://www.eldorado.ru/cat/detail/igrovaya-pristavka-microsoft-xbox-series-x/',
-#'DNS': 'https://www.dns-shop.ru/product/2e0abd026fcb1b80/igrovaa-konsol-microsoft-xbox-series-x/',
-'Ситилинк': 'https://www.citilink.ru/product/igrovaya-konsol-microsoft-xbox-series-x-rrt-00011-chernyi-1434349/',
-#'Ozon': 'https://www.ozon.ru/product/igrovaya-konsol-microsoft-xbox-series-x-chernyy-173667655/',
-'Связной': 'https://www.svyaznoy.ru/catalog/gamepad/9209/5835083',
-'Сбермегамаркет': 'https://sbermegamarket.ru/catalog/details/igrovaya-pristavka-microsoft-xbox-series-x-100027479079/',
-#'Мегафон': 'https://shop.megafon.ru/toys/135796.html',
-'Gamepark': 'https://www.gamepark.ru/xboxone/console/IgrovayakonsolXboxSeriesX/',
-'Technopark': 'https://www.technopark.ru/igrovaya-pristavka-microsoft-xbox-series-x-1tb/',
-#'Подпишись.РФ': 'https://подпишись.рф/catalog/XBOX_Series_X/8569'
-}
-xbox_series_s_links = {
-'М.видео': 'https://www.mvideo.ru/products/igrovaya-pristavka-microsoft-xbox-series-s-512gb-40074462',
-'Эльдорадо': 'https://www.eldorado.ru/cat/detail/igrovaya-pristavka-microsoft-xbox-series-s-512gb/',
-#'DNS': 'https://www.dns-shop.ru/product/fc4f8bb2f2fc3332/igrovaa-konsol-microsoft-xbox-series-s/',
-'Ситилинк': 'https://www.citilink.ru/product/igrovaya-konsol-microsoft-xbox-series-s-rrs-00011-belyi-1434347/',
-#'Ozon': 'https://www.ozon.ru/product/igrovaya-konsol-microsoft-xbox-series-s-belyy-226110788/',
-'Связной': 'https://www.svyaznoy.ru/catalog/gamepad/9209/5835086',
-'Сбермегамаркет': 'https://sbermegamarket.ru/catalog/details/igrovaya-pristavka-microsoft-xbox-series-s-100027479080/',
-#'Мегафон': 'https://shop.megafon.ru/toys/135797.html',
-'Gamepark': 'https://www.gamepark.ru/xboxone/console/IgrovayakonsolXboxSeriesS/',
-'Technopark': 'https://www.technopark.ru/igrovaya-pristavka-microsoft-xbox-series-s-512gb/',
-#'Подпишись.РФ': 'https://подпишись.рф/catalog/XBOX_Series_S/8568'
-}
+xbox_series_x_links = get_links.get_xsx_links()
+xbox_series_s_links = get_links.get_xss_links()
 
 # Выбор консоли
 search_mode = input('\nВыберите консоль (введите число и нажмите Enter):\n1 - Xbox Series X\n2 - Xbox Series S\n')
