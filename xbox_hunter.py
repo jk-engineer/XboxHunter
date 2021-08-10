@@ -23,20 +23,16 @@ import webbrowser
 import winsound
 
 
-# Список ссылок на консоли в различных магазинах
-xbox_series_x_links = get_links.get_xsx_links()
-xbox_series_s_links = get_links.get_xss_links()
-
 # Выбор консоли
 search_mode = input('\nВыберите консоль (введите число и нажмите Enter):\n1 - Xbox Series X\n2 - Xbox Series S\n')
 while True:
     if search_mode == '1':
         print('\nВыбрана Xbox Series X')
-        target_links = xbox_series_x_links
+        target_links = get_links.get_xsx_links()
         break
     elif search_mode == '2':
         print('\nВыбрана Xbox Series S')
-        target_links = xbox_series_s_links
+        target_links = get_links.get_xss_links()
         break
     else:
         search_mode = input('\nВыберите консоль (введите число и нажмите Enter):\n1 - Xbox Series X\n2 - Xbox Series S\n')
@@ -48,12 +44,12 @@ while True:
     for shop, url in target_links.items():
         result = check_status.check_status(shop, url)
         if result:
-            print(f'{shop}: Есть в наличии')
+            print(f'{shop:.<20}' + f'{"Есть в наличии":.>20}')
             lucky_url = url
             exit_flag = True
             break
         else:
-            print(f'{shop}: Нет в наличии')
+            print(f'{shop:.<20}' + f'{"Нет в наличии":.>20}')
     if exit_flag:
         break
     else:
