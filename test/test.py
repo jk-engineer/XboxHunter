@@ -15,7 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-import check_status
+from ..lib import check_status
 
 
 links = {

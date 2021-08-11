@@ -15,8 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 
-import check_status
-import get_links
+from lib import check_status
+from lib import get_links
 import random
 import time
 import webbrowser
