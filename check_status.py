@@ -21,7 +21,7 @@ import requests
 
 __status_message = ''
 
-def check_status(shop_name: str, target_url: str) -> bool:
+def check_status(target_url: str) -> bool:
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
     global __status_message
     __status_message = ''
@@ -35,48 +35,48 @@ def check_status(shop_name: str, target_url: str) -> bool:
         return False
     parsed_page = bSoup(response.text, 'html.parser')
 
-    if shop_name == 'М.видео':
+    if 'mvideo.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('div', class_='fl-pdp-pay__sales-start-date-label')]
         result = not '\n                    Скоро в продаже\n ' in data
 
-    elif shop_name == 'Эльдорадо':
+    elif 'eldorado.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('span', class_='gtmAddToBasket addToCartBigCP cartButtonText')]
         result = 'Добавить в корзину' in data
 
-    #elif shop_name == 'DNS':
+    #elif 'dns-shop.ru' in target_url:
         #pass
 
-    elif shop_name == 'Ситилинк':
+    elif 'citilink.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('span', class_='Button__text jsButton__text')]
         result = '\n                В корзину\n            ' in data
 
-    elif shop_name == 'Ozon':
+    elif 'ozon.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('div', class_='kxa6')]
         result = 'Добавить в корзину' in data
 
-    elif shop_name == 'Связной':
+    elif 'svyaznoy.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('span', class_='b-main-btn__text')]
         result = 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in data
 
-    elif shop_name == 'Сбермегамаркет':
+    elif 'sbermegamarket.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('button', class_='buy-button__button btn sm btn-block')]
         result = 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in data
 
-    #elif shop_name == 'Мегафон':
+    #elif 'megafon.ru' in target_url:
         #pass
 
-    elif shop_name == 'Gamepark':
+    elif 'gamepark.ru' in target_url:
         data_1 = [element.text for element in parsed_page.find_all('a', class_='subscribe_no_by modal_link')]
         result_1 = not 'Узнать о наличии' in data_1
         data_2 = [element.text for element in parsed_page.find_all('a', class_='book_now is_magazin modal_link')]
         result_2 = 'Только в магазине' in data_2
         result = result_1 or result_2
 
-    elif shop_name == 'Technopark':
+    elif 'technopark.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('span', class_='buy')]
         result = 'Купить' in data
 
-    #elif shop_name == 'Подпишись.РФ':
+    #elif 'подпишись.рф' in target_url:
         #pass
 
     else:

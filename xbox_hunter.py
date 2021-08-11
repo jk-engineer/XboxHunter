@@ -42,7 +42,7 @@ exit_flag = False
 while True:
     print(f'\n{time.strftime("%H:%M:%S", time.localtime())}')
     for shop, url in target_links.items():
-        result = check_status.check_status(shop, url)
+        result = check_status.check_status(url)
         if result:
             print(f'{shop:.<20}' + f'{check_status.status_message():.>30}')
             lucky_url = url
