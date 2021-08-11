@@ -19,57 +19,75 @@ from bs4 import BeautifulSoup as bSoup
 import certifi
 import requests
 
+__status_message = ''
 
 def check_status(shop_name: str, target_url: str) -> bool:
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
+    global __status_message
+    __status_message = ''
     try:
         response = requests.get(target_url, headers=headers, timeout=10, verify=certifi.where())
     except:
+        __status_message = 'Отказано в доступе'
         return False
     if not response.ok:
+        __status_message = 'Отказано в доступе'
         return False
     parsed_page = bSoup(response.text, 'html.parser')
 
     if shop_name == 'М.видео':
-        result = [element.text for element in parsed_page.find_all('div', class_='fl-pdp-pay__sales-start-date-label')]
-        return not '\n                    Скоро в продаже\n ' in result
+        data = [element.text for element in parsed_page.find_all('div', class_='fl-pdp-pay__sales-start-date-label')]
+        result = not '\n                    Скоро в продаже\n ' in data
 
     elif shop_name == 'Эльдорадо':
-        result = [element.text for element in parsed_page.find_all('span', class_='gtmAddToBasket addToCartBigCP cartButtonText')]
-        return 'Добавить в корзину' in result
+        data = [element.text for element in parsed_page.find_all('span', class_='gtmAddToBasket addToCartBigCP cartButtonText')]
+        result = 'Добавить в корзину' in data
 
     #elif shop_name == 'DNS':
         #pass
 
     elif shop_name == 'Ситилинк':
-        result = [element.text for element in parsed_page.find_all('span', class_='Button__text jsButton__text')]
-        return '\n                В корзину\n            ' in result
+        data = [element.text for element in parsed_page.find_all('span', class_='Button__text jsButton__text')]
+        result = '\n                В корзину\n            ' in data
 
     elif shop_name == 'Ozon':
-        result = [element.text for element in parsed_page.find_all('div', class_='kxa6')]
-        return 'Добавить в корзину' in result
+        data = [element.text for element in parsed_page.find_all('div', class_='kxa6')]
+        result = 'Добавить в корзину' in data
 
     elif shop_name == 'Связной':
-        result = [element.text for element in parsed_page.find_all('span', class_='b-main-btn__text')]
-        return 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in result
+        data = [element.text for element in parsed_page.find_all('span', class_='b-main-btn__text')]
+        result = 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in data
 
     elif shop_name == 'Сбермегамаркет':
-        result = [element.text for element in parsed_page.find_all('button', class_='buy-button__button btn sm btn-block')]
-        return 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in result
+        data = [element.text for element in parsed_page.find_all('button', class_='buy-button__button btn sm btn-block')]
+        result = 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in data
 
     #elif shop_name == 'Мегафон':
         #pass
 
     elif shop_name == 'Gamepark':
-        result = [element.text for element in parsed_page.find_all('a', class_='subscribe_no_by modal_link')]
-        return not 'Узнать о наличии' in result
+        data_1 = [element.text for element in parsed_page.find_all('a', class_='subscribe_no_by modal_link')]
+        result_1 = not 'Узнать о наличии' in data_1
+        data_2 = [element.text for element in parsed_page.find_all('a', class_='book_now is_magazin modal_link')]
+        result_2 = 'Только в магазине' in data_2
+        result = result_1 or result_2
 
     elif shop_name == 'Technopark':
-        result = [element.text for element in parsed_page.find_all('span', class_='buy')]
-        return 'Купить' in result
+        data = [element.text for element in parsed_page.find_all('span', class_='buy')]
+        result = 'Купить' in data
 
     #elif shop_name == 'Подпишись.РФ':
         #pass
 
     else:
-        return False
+        result = False
+
+    if result:
+        __status_message = 'Есть в наличии'
+    else:
+        __status_message = 'Нет в наличии'
+    
+    return result
+
+def status_message() -> str:
+    return __status_message

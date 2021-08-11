@@ -44,12 +44,12 @@ while True:
     for shop, url in target_links.items():
         result = check_status.check_status(shop, url)
         if result:
-            print(f'{shop:.<20}' + f'{"Есть в наличии":.>20}')
+            print(f'{shop:.<20}' + f'{check_status.status_message():.>30}')
             lucky_url = url
             exit_flag = True
             break
         else:
-            print(f'{shop:.<20}' + f'{"Нет в наличии":.>20}')
+            print(f'{shop:.<20}' + f'{check_status.status_message():.>30}')
     if exit_flag:
         break
     else:
