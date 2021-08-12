@@ -14,8 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+# Для проведения тестов необходимо поместить данный файл в корневой каталог программы.
 
-from ..lib import check_status
+from utils.check_status import *
 
 
 links = {
@@ -30,8 +31,9 @@ links = {
 'Gamepark': 'https://www.gamepark.ru/xboxone/games/Cyberpunk2077XboxOne/',
 'Technopark': 'https://www.technopark.ru/smartfon-xiaomi-redmi-note-9-64gb-lesnoy-zelenyy/',
 'Подпишись.РФ': 'https://подпишись.рф/catalog/Samsung_Galaxy_S21/SM-G991BZVDSER',
-'Computeruniverse': 'https://www.computeruniverse.net/ru/p/90825717'
+'Computeruniverse': 'https://www.computeruniverse.net/ru/p/90825717',
+'1С-Интерес': ''
 }
 
 for shop, url in links.items():
-    print(f'{shop}: {check_status.check_status(shop, url)}')
+    print(f'{shop}_{check_status(url)}_{status_message()}')
