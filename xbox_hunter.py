@@ -1,4 +1,4 @@
-# Программа для мониторинга наличия Xbox Series X/S в магазинах
+# This file is part of XboxHunter project.
 # Copyright (C) 2021 Evgeniy Ipatov
 
 # This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,10 @@
 
 from utils.check_status import *
 from utils.get_links import *
+from utils.email_notify import EmailNotity
 import random
 import time
+import sys
 import webbrowser
 import winsound
 
@@ -36,6 +38,16 @@ while True:
         break
     else:
         search_mode = input('\nВыберите консоль (введите число и нажмите Enter):\n1 - Xbox Series X\n2 - Xbox Series S\n')
+
+if len(target_links) == 0:
+    print('Не найдены ссылки для отслеживания. Выход из программы')
+    sys.exit()
+
+# Запрос электронной почты для отправки уведомлений
+send_notify = input('\nХотите, чтобы программа отправляла уведомление на электронную почту? Введите Д или Н (также допускается Y или N):\n')
+if send_notify.lower() in ['д', 'y']:
+    send_notify = True
+    notify_object = EmailNotity()
 
 # Проверка наличия консоли
 exit_flag = False
@@ -63,3 +75,7 @@ webbrowser.open_new_tab(lucky_url)
 for index in range(0, 100):
     winsound.Beep(800, 1000)
 user_answer = input()
+
+# Отправка уведомления на электронную почту
+if send_notify:
+    notify_object.send_success_message(lucky_url)
