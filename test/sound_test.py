@@ -1,4 +1,4 @@
-# Программа для проверки звукового оповещения
+# This file is part of XboxHunter project.
 # Copyright (C) 2021 Evgeniy Ipatov
 
 # This program is free software: you can redistribute it and/or modify
