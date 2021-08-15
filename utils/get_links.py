@@ -1,4 +1,4 @@
-# Программа для мониторинга наличия Xbox Series X/S в магазинах
+# This file is part of XboxHunter project.
 # Copyright (C) 2021 Evgeniy Ipatov
 
 # This program is free software: you can redistribute it and/or modify
@@ -27,13 +27,15 @@ def __get_links(folder_name: str) -> dict:
     for name in file_names:
         try:
             with open(name, 'rt') as input:
-                result[name.stem] = input.readline()
+                result[name.stem] = input.readline().replace('\n', '')
         except:
             pass
     return result
 
+
 def get_xsx_links() -> dict:
     return __get_links('xsx_links')
+
 
 def get_xss_links() -> dict:
     return __get_links('xss_links')
