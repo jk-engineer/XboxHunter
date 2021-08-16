@@ -1,4 +1,4 @@
-# Программа для мониторинга наличия Xbox Series X/S в магазинах
+# This file is part of XboxHunter project.
 # Copyright (C) 2021 Evgeniy Ipatov
 
 # This program is free software: you can redistribute it and/or modify
@@ -18,33 +18,43 @@
 from bs4 import BeautifulSoup as bSoup
 import certifi
 import requests
+from requests_html import HTMLSession
+
 
 __status_message = ''
 
+
 def check_status(target_url: str) -> bool:
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101 Firefox/91.0'}
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'}
     global __status_message
     __status_message = ''
     try:
-        response = requests.get(target_url, headers=headers, timeout=10, verify=certifi.where())
+        if 'https://xn--d1aiavecq8cxb.xn--p1ai' in target_url:
+            session = HTMLSession()
+            response = session.get(target_url, headers=headers, timeout=30, verify=certifi.where())
+        else:
+            response = requests.get(target_url, headers=headers, timeout=30, verify=certifi.where())
     except:
-        __status_message = 'Отказано в доступе'
+        __status_message = 'Ошибка запроса'
         return False
     if not response.ok:
         __status_message = 'Отказано в доступе'
         return False
-    parsed_page = bSoup(response.text, 'html.parser')
+    if 'https://xn--d1aiavecq8cxb.xn--p1ai' in target_url:
+        response.html.render(timeout=60)
+        parsed_page = bSoup(response.html.html, 'html.parser')
+    else:
+        parsed_page = bSoup(response.text, 'html.parser')
 
     if 'mvideo.ru' in target_url:
-        data = [element.text for element in parsed_page.find_all('div', class_='fl-pdp-pay__sales-start-date-label')]
-        result = not '\n                    Скоро в продаже\n ' in data
+        result = False
 
     elif 'eldorado.ru' in target_url:
-        data = [element.text for element in parsed_page.find_all('span', class_='gtmAddToBasket addToCartBigCP cartButtonText')]
-        result = 'Добавить в корзину' in data
+        data = [element.text for element in parsed_page.find_all('a', class_='gs-avail-btn item_subscription_link no-mobile')]
+        result = len(data) == 0
 
-    #elif 'dns-shop.ru' in target_url:
-        #pass
+    elif 'dns-shop.ru' in target_url:
+        result = False
 
     elif 'citilink.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('span', class_='Button__text jsButton__text')]
@@ -62,8 +72,8 @@ def check_status(target_url: str) -> bool:
         data = [element.text for element in parsed_page.find_all('button', class_='buy-button__button btn sm btn-block')]
         result = 'Ð\x9aÑ\x83Ð¿Ð¸Ñ\x82Ñ\x8c' in data
 
-    #elif 'megafon.ru' in target_url:
-        #pass
+    elif 'megafon.ru' in target_url:
+        result = False
 
     elif 'gamepark.ru' in target_url:
         data_1 = [element.text for element in parsed_page.find_all('a', class_='subscribe_no_by modal_link')]
@@ -76,8 +86,21 @@ def check_status(target_url: str) -> bool:
         data = [element.text for element in parsed_page.find_all('span', class_='buy')]
         result = 'Купить' in data
 
-    #elif 'подпишись.рф' in target_url:
-        #pass
+    # подпишись.рф
+    elif 'https://xn--d1aiavecq8cxb.xn--p1ai' in target_url:
+        data = [element.text for element in parsed_page.find_all('button', class_='btn btn-lg btn-rounded btn-order mb-sm-3')]
+        result = 'Оформить заявку' in data
+
+    elif 'computeruniverse.net' in target_url:
+        result = False
+
+    elif 'kcentr.ru' in target_url:
+        data = [element.text for element in parsed_page.find_all('a', class_='product-cart _card jsAddToCart btn _block _red')]
+        result = ' Добавить в корзину' in data
+
+    elif '1c-interes.ru' in target_url:
+        data = [element.text for element in parsed_page.find_all('a', class_='btn_order product_buy_button btn btn_orange retailRocket-bakset-btn order-link')]
+        result = '\nВ корзину\n' in data
 
     else:
         result = False
@@ -88,6 +111,7 @@ def check_status(target_url: str) -> bool:
         __status_message = 'Нет в наличии'
     
     return result
+
 
 def status_message() -> str:
     return __status_message
