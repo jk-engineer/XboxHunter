@@ -24,9 +24,9 @@ class EmailNotity():
 
 
     def __init__(self) -> None:
-        self.__from_email = input('\nВведите адрес электронной почты (поддерживается только Google), с которого будут отправляться уведомления:\n')
+        self.__from_email = input('\nВведите адрес электронной почты (поддерживается только gmail), с которой будут отправляться уведомления:\n')
         self.__email_password = getpass('\nВведите пароль электронной почты, указанной выше:\n')
-        self.__to_email = input('\nВведите адрес электронной почты, на который будет отправлено уведомление:\n')
+        self.__to_email = input('\nВведите адрес электронной почты, на которую будет отправлено уведомление:\n')
         self.send_start_message()
 
 
@@ -50,7 +50,7 @@ class EmailNotity():
 
 
     def send_start_message(self):
-        self.__send_message('Запущена программа XboxHunter. Ожидайте уведомления со ссылкой.')
+        self.__send_message('Запущена программа XboxHunter. Ожидайте уведомление со ссылкой.')
 
 
     def send_success_message(self, lucky_url: str):
