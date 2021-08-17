@@ -34,7 +34,8 @@ links = {
 'Подпишись.РФ': 'https://xn--d1aiavecq8cxb.xn--p1ai/catalog/Samsung_Galaxy_S21/SM-G991BZVDSER',
 # 'Computeruniverse': 'https://www.computeruniverse.net/ru/p/90825717',
 '1С-Интерес': 'https://www.1c-interes.ru/catalog/aksessuary/besprovodnoy_kontroller_dualsense_igrovoy_chernaya_polnoch_dlya_ps5/',
-'КорпорацияЦентр': 'https://kcentr.ru/goods/smartfon_xiaomi_xiaomi_redmi_9_64gb_carbon_grey/'
+'КорпорацияЦентр': 'https://kcentr.ru/goods/smartfon_xiaomi_xiaomi_redmi_9_64gb_carbon_grey/',
+'ОнлайнТрейд': 'https://www.onlinetrade.ru/catalogue/smartfony-c13/poco/smartfon_poco_x3_nfc_6_128gb_seryy_sumrak_x29601-2318109.html'
 }
 
 for shop, url in links.items():

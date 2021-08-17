@@ -87,7 +87,7 @@ def check_status(target_url: str) -> bool:
         result = 'Купить' in data
 
     # подпишись.рф
-    elif 'https://xn--d1aiavecq8cxb.xn--p1ai' in target_url:
+    elif 'xn--d1aiavecq8cxb.xn--p1ai' in target_url:
         data = [element.text for element in parsed_page.find_all('button', class_='btn btn-lg btn-rounded btn-order mb-sm-3')]
         result = 'Оформить заявку' in data
 
@@ -101,6 +101,10 @@ def check_status(target_url: str) -> bool:
     elif '1c-interes.ru' in target_url:
         data = [element.text for element in parsed_page.find_all('a', class_='btn_order product_buy_button btn btn_orange retailRocket-bakset-btn order-link')]
         result = '\nВ корзину\n' in data
+
+    elif 'onlinetrade.ru' in target_url:
+        data = [element.text for element in parsed_page.find_all('h3')]
+        result = not 'Снят с продажи' in data
 
     else:
         result = False
