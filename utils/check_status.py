@@ -22,6 +22,7 @@ from requests_html import HTMLSession
 
 
 __status_message = ''
+__session = HTMLSession()
 
 
 def check_status(target_url: str) -> bool:
@@ -30,8 +31,8 @@ def check_status(target_url: str) -> bool:
     __status_message = ''
     try:
         if 'https://xn--d1aiavecq8cxb.xn--p1ai' in target_url:
-            session = HTMLSession()
-            response = session.get(target_url, headers=headers, timeout=30, verify=certifi.where())
+            global __session
+            response = __session.get(target_url, headers=headers, timeout=30, verify=certifi.where())
         else:
             response = requests.get(target_url, headers=headers, timeout=30, verify=certifi.where())
     except:
@@ -111,6 +112,7 @@ def check_status(target_url: str) -> bool:
 
     if result:
         __status_message = 'Есть в наличии'
+        __session.close()
     else:
         __status_message = 'Нет в наличии'
     
