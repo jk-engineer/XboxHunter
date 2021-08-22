@@ -48,6 +48,8 @@ send_notify = input('\nХотите, чтобы программа отправ�
 if send_notify.lower() in ['д', 'y']:
     send_notify = True
     notify_object = EmailNotity()
+else:
+    send_notify = False
 
 # Проверка наличия консоли
 exit_flag = False
@@ -66,16 +68,24 @@ while True:
         break
     else:
         delay = random.randint(60, 180)
+        print(f'\nСледующий запрос через: {delay} сек.')
         time.sleep(delay)
 
 # Открытие ссылки в браузере
-webbrowser.open_new_tab(lucky_url)
-
-# Подача звукового сигнала
-for index in range(0, 100):
-    winsound.Beep(800, 1000)
-user_answer = input()
+try:
+    webbrowser.open_new_tab(lucky_url)
+except:
+    print('\nНе удалось открыть ссылку в браузере')
 
 # Отправка уведомления на электронную почту
 if send_notify:
     notify_object.send_success_message(lucky_url)
+
+# Подача звукового сигнала
+try:
+    for index in range(0, 100):
+        winsound.Beep(800, 1000)
+except:
+    pass
+
+user_answer = input()
